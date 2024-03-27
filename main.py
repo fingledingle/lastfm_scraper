@@ -10,11 +10,18 @@ def flattening_list(artist_list):
     # for row in artist_list:
     #   for list_of_names in row   ^^^^^^ basically that
 
-artist_data = GrabArtist()
-artist_list = artist_data.get_artists()
-similar_artists = flattening_list(artist_list)
 
 
+user_choice = input("What is the artist you're looking for?\n")
+# if " " in user_choice:
+#     user_choice = user_choice.replace(" ", "+")
+#     print(user_choice)
+
+
+artist_data = GrabArtist(user_choice)
+similar_artist_list = artist_data.get_similar_artists()
+similar_artists = flattening_list(similar_artist_list)
 print(similar_artists)
+
 
 
