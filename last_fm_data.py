@@ -3,48 +3,26 @@ from bs4 import BeautifulSoup
 import random
 import time
 from scrapingbee import ScrapingBeeClient
-
+PROXY = "WEMYDVA0ROFLSW6HCZ41EW8H3KD5HQW2UM7YV49F55ZSYACY235WESS6RQ3IWOLTBXJNDFEL3FRPDRMN"
 class GrabArtist:
 
     def __init__(self, user_choice):
-        get_user_input = user_choice
-        self.link = f"https://www.last.fm/music/{get_user_input}"
-
+        self.link_similar = f"https://www.last.fm/music/{user_choice}"
+        self.link_artist_genres = f"https://www.last.fm/music/{user_choice}"
+        self.client = ScrapingBeeClient(
+            api_key=PROXY)
 
 
     def get_similar_artists(self):
-        artists_list = []
-
-        first_page = f"{self.link}/+similar"
-        proxy_key = "WEMYDVA0ROFLSW6HCZ41EW8H3KD5HQW2UM7YV49F55ZSYACY235WESS6RQ3IWOLTBXJNDFEL3FRPDRMN"
-
-        client = ScrapingBeeClient(
-            api_key=proxy_key)
-
-        response = client.get(first_page)
-
-
-        artist_data = response.text
-
-        soup = BeautifulSoup(artist_data, "html.parser")
-        artists_text = soup.find_all(name="a", class_="link-block-target")
-
-        similar_artists = [artist.getText() for artist in artists_text]
-        artists_list.append(similar_artists)
-
-
         page_tries = 0
+        artists_list = []
         for page in range(1, 26):
             time.sleep(2)
             print(page)
-            other_pages = f"{first_page}?page={page}"
-            client2 = ScrapingBeeClient(
-                api_key=proxy_key)
-            response = client2.get(other_pages)
-            #Last fm blocks past page 24 even with different user-agent le epic fail
+            other_pages = f"{self.link_similar}/+similar?page={page}"
+            response = self.client.get(other_pages)
             response.raise_for_status()
             artist_data = response.text
-
             soup = BeautifulSoup(artist_data, "html.parser")
             artist = soup.find_all(name="a", class_="link-block-target")
             similar_artist_pages = [artist.getText() for artist in artist]
@@ -53,19 +31,44 @@ class GrabArtist:
             page_tries+=1
         if page_tries != 25:
             print("sowwy i couldnt reach some pwages")
-
-
-            return artists_list
-            # except:
-            #     self.try_proxy()
-            #     print("I will try again 1 second ;w;")
+        return artists_list
 
 
 
-    def get_genre_artists(self):
-        pass
+    def get_genre(self):
+        genres = []
+
+        response = self.client.get(self.link_artist_genres)
+        artist_data = response.text
+        soup = BeautifulSoup(artist_data, "html.parser")
 
 
+        artist_genres_data = soup.select(selector=".tags-list--global a")
+        artist_genres = [artists.getText() for artists in artist_genres_data]
+        genres.append(artist_genres)
+        return genres
 
+
+    def get_tag_artists(self, tag):
+        self.link_tag = f"https://www.last.fm/tag/{tag}/artists"
+        page_tries = 0
+        artists_list = []
+        for page in range(1, 26):
+            time.sleep(2)
+            print(page)
+            other_pages = f"{self.link_tag}?page={page}"
+            response = self.client.get(other_pages)
+            response.raise_for_status()
+            artist_data = response.text
+            soup = BeautifulSoup(artist_data, "html.parser")
+            artist = soup.find_all(name="a", class_="link-block-target")
+            same_genre_artists = [artist.getText() for artist in artist]
+            del same_genre_artists[0:2]
+            print(same_genre_artists)
+            artists_list.append(same_genre_artists)
+            page_tries+=1
+        if page_tries != 25:
+            print("sowwy i couldnt reach some pwages")
+        return artists_list
 
 

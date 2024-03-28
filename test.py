@@ -19,7 +19,7 @@ class GetProxy:
 
 
 
-        #DOESNT FUCKING WORK
+        # #DOESNT FUCKING WORK
         # regex = r"[0-9]+(?:\.[0-9]+){3}:[0-9]+"
         # c = requests.get("https://spys.me/proxy.txt")
         # test_str = c.text
@@ -40,4 +40,4 @@ class GetProxy:
         #     for ip, port in zip(ips,ports):
         #         proxy = f"{ip}:{port}"
         #         proxy_list.append(proxy)
-        # return proxy_list
+        # # return proxy_list
