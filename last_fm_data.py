@@ -7,6 +7,11 @@ class GrabArtist:
     def __init__(self, user_choice):
         get_user_input = user_choice
         self.link = f"https://www.last.fm/music/{get_user_input}"
+
+
+
+    def ip_adresses(self, proxies):
+        
     def get_similar_artists(self):
 
 
