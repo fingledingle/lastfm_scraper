@@ -27,7 +27,6 @@ class MainWindow:
         def main_page():
             self.navigation_frame = CTkFrame(self.window)
             self.navigation_frame.pack(pady=1, padx=1, fill="both", expand=True)
-            self.
             pass
 
 
