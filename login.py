@@ -16,22 +16,141 @@ class MainWindow:
 
 
     def program_windows(self):
+
         def button(spotify, scrapingbee, key_frame):
-            for widget in key_frame.winfo_children():
-                widget.destroy()
-            print(spotify)
+            key_frame.destroy()
             main_page()
+            print(spotify)
+
+
+        def lastfm_button():
+
+            def same_genre():
+                pass
 
 
 
-        def main_page():
-            self.navigation_frame = CTkFrame(self.window)
-            self.navigation_frame.pack(pady=1, padx=1, fill="both", expand=True)
+
+
+
+            self.menu_frame = CTkFrame(self.window, height=390, width=352, corner_radius=25)
+            self.menu_frame.place(x=146, y=5)
+
+            def similar_artists():
+                self.similar_artist = customtkinter.CTkEntry(master=self.menu_frame, placeholder_text="", width=150,
+                                                            corner_radius=50)
+                self.similar_artist.place(x=101, y=270)
+
+            similar_artists()
+
+
+
+            self.danbo = CTkImage(Image.open("./images/danbo.png"), size=(158, 119))
+            self.yotsuba = customtkinter.CTkLabel(self.menu_frame, text="", fg_color="transparent",
+                                             image=self.danbo)
+            self.yotsuba.place(x=105, y=55)
+
+
+
+
+            self.methods = customtkinter.CTkSegmentedButton(master=self.menu_frame, values=["similar artists", "same genre"], width=160)
+            self.methods.place(x=96, y=180)
+            self.methods.set("methods")
+
+
+
+            self.artist_label = customtkinter.CTkLabel(master=self.menu_frame, text="QT.Artist", fg_color="transparent")
+            self.artist_label.place(x=120, y=220)
+            self.artist_quantity = customtkinter.CTkEntry(master=self.menu_frame, placeholder_text="", width=45, corner_radius=50)
+            self.artist_quantity.place(x=125, y=245)
+
+
+
+
+            self.song_label = customtkinter.CTkLabel(master=self.menu_frame, text="QT.Songs", fg_color="transparent")
+            self.song_label.place(x=200, y=220)
+            self.song_quantity = customtkinter.CTkEntry(master=self.menu_frame, placeholder_text="", width=45,
+                                                          corner_radius=50)
+            self.song_quantity.place(x=205, y=245)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def rym_button():
+            pass
+
+        def spotify_button():
             pass
 
 
 
+        def main_page():
+            lastfm_button()
+
+            #PSEUDO LEFT SIDE
+            self.menu_frame = CTkFrame(self.window, height=380, width=140, corner_radius=25)
+            # self.main_frame.pack(pady=1, padx=0, fill= Y, expand=True, x=0)
+            self.menu_frame.place(x=2, y=10)
+
+
+
+
+            self.yotsuba_logo = CTkImage(Image.open("./images/yotsuba_png.png"), size=(100, 100))
+            yotsuba = customtkinter.CTkLabel(self.menu_frame, text="", fg_color="transparent",
+                                             image=self.yotsuba_logo)
+            yotsuba.place(x=25, y=20)
+
+
+
+
+
+
+
+
+            self.lastfm_button = customtkinter.CTkButton(self.menu_frame, corner_radius=0, height=40,
+                                                         border_spacing=10, text="LASTFM",
+                                                         fg_color="transparent", text_color=("gray10", "gray90"),
+                                                         hover_color=("gray70", "gray30"),
+                                                         command=lastfm_button)
+
+            self.lastfm_button.place(x=0, y=150)
+
+            self.rym_button = customtkinter.CTkButton(self.menu_frame, corner_radius=0, height=40,
+                                                      border_spacing=10, text="RYM",
+                                                      fg_color="transparent", text_color=("gray10", "gray90"),
+                                                      hover_color=("gray70", "gray30"),
+                                                      command=rym_button)
+            self.rym_button.place(x=0, y=190)
+
+            self.spotify = customtkinter.CTkButton(self.menu_frame, corner_radius=0, height=40,
+                                                   border_spacing=10, text="Add song to spotify",
+                                                   fg_color="transparent", text_color=("gray10", "gray90"),
+                                                   hover_color=("gray70", "gray30"),
+                                                   command=spotify_button)
+            self.spotify.place(x=0, y=300)
+
+
+            #PSEUDO RIGHT SIDE
+
+
+
+
+
+
+
+
         def keys_window():
+
 
             self.key_frame = CTkFrame(self.window)
             self.key_frame.pack(pady=1, padx=1, fill="both", expand=True)
@@ -84,7 +203,6 @@ class MainWindow:
             login_button.place(x=220, y=300)
 
 
-
-
         keys_window()
+
         self.window.mainloop()
