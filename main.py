@@ -1,7 +1,7 @@
 import last_fm_data
 import rym_data
 from last_fm_data import GrabArtist
-from test import GetProxy
+
 from rym_data import RateYourMusic
 from login import MainWindow
 
