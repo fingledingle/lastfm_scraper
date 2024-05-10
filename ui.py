@@ -2,6 +2,8 @@ import tkinter as tk
 from customtkinter import *
 import customtkinter
 from PIL import Image
+from last_fm_data import GrabArtist
+
 
 
 print('poopy')
@@ -13,6 +15,10 @@ customtkinter.set_default_color_theme("green")
 class MainWindow(CTk):
     def __init__(self):
         super().__init__()
+
+
+
+
 
 
         #Setting the attributes for the startingpage keys
@@ -46,6 +52,7 @@ class MainWindow(CTk):
         # Now it's safe to show the initial frame
         self.show_frame(StartPage)
 
+
     def show_frame(self, page_class):
         #For the frame in self.frames.value() < - basically the values inside the self.frames dictionary
         print("Attempting to show frame:", page_class.__name__)
@@ -57,6 +64,8 @@ class MainWindow(CTk):
         #Places the frame that is = the value inside the dic that we previously got 
         print("Showing frame:", frame)
         frame.place(relx=0.5, rely=0.5, anchor='center', relwidth=1, relheight=1)
+
+    
 
 
 
@@ -113,8 +122,13 @@ class StartPage(CTkFrame):
     def login(self, master):
         master.scrapingbee_key = self.scrapingbee.get() 
         master.spotify_key = self.spotify.get()
-
         master.show_frame(PageOne)
+
+
+    # def getkey(self, master):
+    #     return (master.scrapingbee_key, master.spotify_key)
+        
+
 
 class PageOne(CTkFrame):
     def __init__(self, master):
@@ -181,41 +195,49 @@ class PageOne(CTkFrame):
 
 class LastFmFrame(CTkFrame):
     def __init__(self, master):
-        super().__init__(master)
-        
-
-        # scrapingbee_key = master.master.scrapingbee_key
-        # spotify_key = master.master.spotify_key
-
+        super().__init__(master)    
         
 
         def segmented_button_value(value):
             print(value)
             if value == 'similar artists':
                 print(f'the key test {master.master.scrapingbee_key}')
-                similar_artists = CTkEntry(self, placeholder_text='artist name', width=150, corner_radius=50)
-                similar_artists.place(relx=0.5, y=290, anchor='center')
+                self.similar_artists = CTkEntry(self, placeholder_text='artist name', width=150, corner_radius=50)
+                self.similar_artists.place(relx=0.5, y=290, anchor='center')
 
                 start_search_button = CTkButton(self,
                                 text="", border_color="white", 
                                 hover_color="grey", border_width=1,
                                 image=self.danbo_face_image, 
-                                width=60, height=40)
+                                width=60, height=40,
+                                command=lambda: last_fm_search(self.similar_artists.get(), 
+                                                                self.page_quantity.get(),
+                                                                self.songs_quantity.get(),
+                                                                master.master.scrapingbee_key))
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
+
             else:
                 print(f'the key test {master.master.spotify_key}')
-                similar_genre = CTkEntry(self, placeholder_text='genre name', width=150, corner_radius=50)
-                similar_genre.place(relx=0.5, y=290, anchor='center')
+                self.similar_genre = CTkEntry(self, placeholder_text='genre name', width=150, corner_radius=50)
+                self.similar_genre.place(relx=0.5, y=290, anchor='center')
 
                 start_search_button = CTkButton(self,
                                 text="", border_color="white", 
                                 hover_color="grey", border_width=1,
                                 image=self.danbo_face_image, 
                                 width=60, height=40)
+                                # command=lambda: last_fm_search(self.similar_genre.get(), 
+                                #                                 self.page_quantity.get(),
+                                #                                 self.songs_quantity.get(),
+                                #                                 master.master.scrapingbee_key))
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
 
 
-        
+
+
+
+
+
 
         self.danbo_face_image = CTkImage(Image.open("./images/button.png"), size=(30, 20))
 
@@ -239,19 +261,53 @@ class LastFmFrame(CTkFrame):
 
 
     
-        artist_quantity_label = CTkLabel(self, text='QT.Artists', fg_color="transparent")
-        artist_quantity_label.place(relx= 0.3, y=190)
+        page_quantity_label = CTkLabel(self, text='QT.Pages', fg_color="transparent")
+        page_quantity_label.place(relx= 0.3, y=190)
 
         songs_quantity_label = CTkLabel(self, text='QT.Songs', fg_color="transparent")
         songs_quantity_label.place(relx= 0.55, y=190)
 
 
 
-        artist_quantity = CTkEntry(self, width=45, corner_radius=50)
-        artist_quantity.place(relx=0.33, y=220)
+        self.page_quantity = CTkEntry(self, width=45, corner_radius=50)
+        self.page_quantity.place(relx=0.33, y=220)
 
-        songs_quantity = CTkEntry(self, width=45, corner_radius=50)
-        songs_quantity.place(relx=0.55, y=220)
+        self.songs_quantity = CTkEntry(self, width=45, corner_radius=50)
+        self.songs_quantity.place(relx=0.55, y=220)
+
+
+
+        #CAnvas here probably
+
+
+
+###########################H--Handling the search--####################################
+        def last_fm_search(similar_artist, page_quantity, songs_quantity, scrapingbee_key):
+            print(f'The artist is: {similar_artist}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+
+
+################################################################################################
+            grab_artists = GrabArtist(similar_artist, str(scrapingbee_key), page_quantity)
+            getting_similar_artists = grab_artists.get_similar_artists()
+            if getting_similar_artists == 'False':
+                #Do spotify stuff
+                print('hey my name is jefferson')
+
+            # artist_names = [list_of_names for row in unorganized_artist_list for list_of_names in row]
+
+
+            # # artist_tags = grab_artists.get_genre()
+
+            # with open(f"similar_artists_to_{similar_artist}", "w", encoding="utf-8") as file:
+            #     for artist in artist_names:
+            #         file.write(f"{artist}\n")   
+
+
+
+            #Spotify stuff
+        
+ ####################################################################################
+
 
 
 
@@ -286,5 +342,5 @@ class RymFrame(CTkFrame):
 
 
 # if __name__ == "__main__":
-app = MainWindow()
-app.mainloop()
+# app = MainWindow()
+# app.mainloop()
