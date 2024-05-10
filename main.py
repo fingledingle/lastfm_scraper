@@ -1,15 +1,11 @@
 
 import rym_data
-from last_fm_data import GrabArtist
 
 from rym_data import RateYourMusic
 from ui import MainWindow, StartPage
 from customtkinter import *
 from PIL import Image
-import tkinter
-import requests
-import json
-# from CTkTable import CTkTable
+
 from CTkMessagebox import CTkMessagebox
 
 
