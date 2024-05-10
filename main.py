@@ -1,26 +1,58 @@
-import last_fm_data
+
 import rym_data
 from last_fm_data import GrabArtist
 
 from rym_data import RateYourMusic
-from login import MainWindow
-
+from ui import MainWindow, StartPage
 from customtkinter import *
 from PIL import Image
 import tkinter
 import requests
 import json
-from CTkTable import CTkTable
+# from CTkTable import CTkTable
 from CTkMessagebox import CTkMessagebox
+
+
+# def flattening_list(artist_list):
+#     return [list_of_names for row in artist_list for list_of_names in row]
+
+# def by_similar_lastfm(user_input):
+
+
+#     grab_artists = GrabArtist(user_input)
+#     artist_list = grab_artists.get_similar_artists()
+
+
+
+#     similar_artists = flattening_list(artist_list)
+
+
+
+
+    # artist_tags = grab_artists.get_genre()
+
+    # with open(f"similar_artists_to_{user_input}", "w", encoding="utf-8") as file:
+    #     for artist in similar_artists:
+    #         file.write(f"{artist}\n")
+
+
+
+
+
+
+
+
+
+
 
 
 
 #I KNOW I COULD PUT THAT ON LASTFMDATA I KNOW THANK YOU FOR NOTICING
 # def flattening_list(artist_list):
 #     return [list_of_names for row in artist_list for list_of_names in row]
-#     # for row in artist_list:
-#     #   for list_of_names in row   ^^^^^^ basically that
-#     #
+    # for row in artist_list:
+    #   for list_of_names in row   ^^^^^^ basically that
+    #
 #
 #
 # def get_proxy():
@@ -28,18 +60,15 @@ from CTkMessagebox import CTkMessagebox
 #     proxy_list = proxy_data.generate_proxy()
 #
 #
-# def by_similar_lastfm():
-#     similar_artist_list = artist_data_lastfm.get_similar_artists()
-#     similar_artists = flattening_list(similar_artist_list)
-#     artist_tags = artist_data_lastfm.get_genre()
-#     with open(f"similar_artists_to_{user_choice}", "w", encoding="utf-8") as file:
-#         for artist in similar_artists:
-#             file.write(f"{artist}\n")
+
+
+
 #     print(similar_artists)
 #     print(artist_tags)
-#
-#
-#
+
+
+
+
 # def by_genre_lastfm():
 #     user_input_genre = input("Which genre out of those do you want? make sure you type it right!\n")
 #     artists_on_tag_list = artist_data_lastfm.get_tag_artists(user_input_genre)
@@ -48,26 +77,32 @@ from CTkMessagebox import CTkMessagebox
 #         for artist in artists_on_tag:
 #             file.write(f"{artist}\n")
 #     print(artists_on_tag)
-#
+
+
+
+
 # def by_top_single_rym():
 #     pass
-#
-#
+
+
 # def by_top_album_rym():
 #     pass
-#
-#
+
+
 # def by_lists_rym():
 #     pass
-#
-#
+
+
 # user_choice = input("What is the artist you're looking for?\n")
 # if " " in user_choice:
 #     user_choice = user_choice.replace(" ", "+")
 #     print(user_choice)
-#
 
-# artist_data_lastfm = last_fm_data.GrabArtist(user_choice)
+
+# artist_data_lastfm = GrabArtist(user_choice)
+# artist_data_lastfm.get_similar_artists
+
+
 
 
 # artist_data_rym = rym_data.RateYourMusic(user_choice)
@@ -82,7 +117,10 @@ from CTkMessagebox import CTkMessagebox
 
 
 open_window = MainWindow()
-program_window = open_window.program_windows()
+
+
+
+open_window.mainloop()
 
 
 
