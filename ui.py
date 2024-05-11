@@ -210,10 +210,11 @@ class LastFmFrame(CTkFrame):
                                 hover_color="grey", border_width=1,
                                 image=self.danbo_face_image, 
                                 width=60, height=40,
-                                command=lambda: last_fm_search(self.similar_artists.get(), 
-                                                                self.page_quantity.get(),
-                                                                self.songs_quantity.get(),
-                                                                master.master.scrapingbee_key))
+                                command=lambda: last_fm_search(choice_method = self.similar_artists.get(), 
+                                                               page_quantity= self.page_quantity.get(),
+                                                               songs_quantity= self.songs_quantity.get(),
+                                                               scrapingbee_key= master.master.scrapingbee_key,
+                                                               choice_type = 'similar artists'))
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
 
             else:
@@ -225,11 +226,12 @@ class LastFmFrame(CTkFrame):
                                 text="", border_color="white", 
                                 hover_color="grey", border_width=1,
                                 image=self.danbo_face_image, 
-                                width=60, height=40)
-                                # command=lambda: last_fm_search(self.similar_genre.get(), 
-                                #                                 self.page_quantity.get(),
-                                #                                 self.songs_quantity.get(),
-                                #                                 master.master.scrapingbee_key))
+                                width=60, height=40,
+                                command=lambda: last_fm_search(choice_method = self.similar_genre.get(), 
+                                                                page_quantity= self.page_quantity.get(),
+                                                                songs_quantity= self.songs_quantity.get(),
+                                                                scrapingbee_key= master.master.scrapingbee_key,
+                                                                choice_type = 'same genre'))
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
 
 
@@ -281,17 +283,36 @@ class LastFmFrame(CTkFrame):
 
 
 
-###########################H--Handling the search--####################################
-        def last_fm_search(similar_artist, page_quantity, songs_quantity, scrapingbee_key):
-            print(f'The artist is: {similar_artist}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+###########################H--Handling the search--(similar artist)####################################
+        def last_fm_search(choice_method, page_quantity, songs_quantity,  scrapingbee_key, choice_type):
+            #Check if the  choice was genre method or similar artist method
+
+            if choice_type == 'similar artists':
+                print(f'The artist is: {choice_method}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+                grab_artists = GrabArtist(choice_method, str(scrapingbee_key), page_quantity)
+                getting_similar_artists = grab_artists.get_similar_artists()
 
 
-################################################################################################
-            grab_artists = GrabArtist(similar_artist, str(scrapingbee_key), page_quantity)
-            getting_similar_artists = grab_artists.get_similar_artists()
-            if getting_similar_artists == 'False':
-                #Do spotify stuff
-                print('hey my name is jefferson')
+
+            elif choice_type == 'same genre':
+                print(f'The genre is: {choice_method}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+                grab_artists = GrabArtist(choice_method, str(scrapingbee_key), page_quantity)
+                getting_same_genre = grab_artists.get_tag_artists()
+
+
+            #Do spotify stuff
+
+
+
+
+
+
+
+
+
+
+
+
 
             # artist_names = [list_of_names for row in unorganized_artist_list for list_of_names in row]
 

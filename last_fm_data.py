@@ -10,14 +10,14 @@ from scrapingbee import ScrapingBeeClient
 class GrabArtist:
 
 
-    def __init__(self, similar_artist, scrapingbee_key, page_quantity):
-        self.link_similar = f"https://www.last.fm/music/{similar_artist}"
-        self.link_artist_genres = f"https://www.last.fm/music/{similar_artist}"
+    def __init__(self, user_choice, scrapingbee_key, page_quantity):
+        self.link_similar = f"https://www.last.fm/music/{user_choice}"
+        self.link_artist_genres = f"https://www.last.fm/music/{user_choice}"
         self.client = ScrapingBeeClient(
             api_key=scrapingbee_key)
         self.page_quantity = int(page_quantity)
-        self.similar_artist = similar_artist
-
+        self.user_choice = user_choice
+        
 
     def get_similar_artists(self):
         page_tries = 0
@@ -32,9 +32,9 @@ class GrabArtist:
             artist_data = response.text
             soup = BeautifulSoup(artist_data, "html.parser")
             artist = soup.find_all(name="a", class_="link-block-target")
-            similar_artist_pages = [artist.getText() for artist in artist]
-            print(similar_artist_pages)
-            artists_list.append(similar_artist_pages)
+            user_choice_pages = [artist.getText() for artist in artist]
+            print(user_choice_pages)
+            artists_list.append(user_choice_pages)
 
 
             print(f'This is the lenght of the appended artists inside the list {len(artists_list)}')
@@ -52,7 +52,7 @@ class GrabArtist:
                 if self.page_quantity == 1:
                     print(artists_list)
                     print('lenght was 1')
-                    with open(f"similar_artists_to_{self.similar_artist}", "w", encoding="utf-8") as file:
+                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in artists_list[0]:
                             file.write(f"{fellas}\n")
                     break
@@ -63,7 +63,7 @@ class GrabArtist:
                     print(artists_list)
                     print('the lenght was a higher value than 1')
                     long_artist_list = [list_of_names for row in artists_list for list_of_names in row]
-                    with open(f"similar_artists_to_{self.similar_artist}", "w", encoding="utf-8") as file:
+                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in long_artist_list:
                             file.write(f"{fellas}\n")
                     break
@@ -92,8 +92,8 @@ class GrabArtist:
         return genres
 
 
-    def get_tag_artists(self, tag):
-        self.link_tag = f"https://www.last.fm/tag/{tag}/artists"
+    def get_tag_artists(self):
+        self.link_tag = f"https://www.last.fm/tag/{self.user_choice}/artists"
         page_tries = 0
         artists_list = []
         for page in range(1, 26):
@@ -109,9 +109,44 @@ class GrabArtist:
             del same_genre_artists[0:2]
             print(same_genre_artists)
             artists_list.append(same_genre_artists)
-            page_tries+=1
-        if page_tries != 25:
-            print("sowwy i couldnt reach some pwages")
-        return artists_list
+
+            print(f'This is the lenght of the appended artists inside the list {len(artists_list)}')
+            print(f'This is the quantity of pages {self.page_quantity}')
+
+
+            #Check if the quantity matches the quantity that the user chose
+            if len(artists_list) == self.page_quantity:
+                print('it ended!')
+                print('##############################################')
+
+
+
+                if self.page_quantity == 1:
+                    print(artists_list)
+                    print('lenght was 1')
+                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
+                        for fellas in artists_list[0]:
+                            file.write(f"{fellas}\n")
+                    break
+
+
+                #Flattening if the list is longer than 1 page
+                elif self.page_quantity > 1:
+                    print(artists_list)
+                    print('the lenght was a higher value than 1')
+                    long_artist_list = [list_of_names for row in artists_list for list_of_names in row]
+                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
+                        for fellas in long_artist_list:
+                            file.write(f"{fellas}\n")
+                    break
+                        
+            else: 
+                print("We're not there yet mate wait a little bit")
+
+
+        return artists_list                
+
+
+
 
 
