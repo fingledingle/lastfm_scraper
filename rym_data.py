@@ -89,19 +89,43 @@ class RateYourMusic:
         artists_list = []
         # jeff = True
         # while jeff:
-        time.sleep(2)
+        time.sleep(5)
         print(f'Current page {page_tries}')
         other_pages = f"{self.user_input}/{page_tries}"
-        response = self.client.get(other_pages)
-        response.raise_for_status()
-        website_data = response.text
-        soup = BeautifulSoup(website_data, "html.parser")
-        # try:
-        artists_data = soup.find_all(name='tr', class_=['treven', 'trodd'])
-        text_stuff_unorganized = [artist.getText() for artist in artists_data]
-        for i in text_stuff_unorganized:
-            print(f'---------------------\n{i}--------------------')
+        while True:
+            try:
+                response = self.client.get(other_pages)
+                response.raise_for_status()
+                website_data = response.text
+                soup = BeautifulSoup(website_data, "html.parser")
+                # try:
+                artists_data = soup.find_all(name='tr', class_=['treven', 'trodd'])
+                text_stuff_unorganized = [artist.getText() for artist in artists_data]
+                text_organized = []
+                for i in text_stuff_unorganized:
+                    new_data = i.split('\n')
+                    # new_data[0] = new_data[0].split('')
+                    new_data[0][0] = new_data[0][0].split('.')
+                    print(new_data[0][0])
+                    # print(new_data[0])
+                print(f'-----------------------{new_data}')
+                return False
+            except:
+                print('erm we ran into an error lets try again buddy')
+
+            
+                    
+            
+            # print(f'---------------------\n{new_data}')
+        # print(new_data[0])
+
+        # for characters in new_data[0]:
+        #     if characters == '.':
+        #         erm = new_data[0].strip(f'{characters}')
         
+
+                    
+
             
         # for each_tr_tag in soup:
         #     artist_and_songs_data = soup.find(name="tr", class_=['treven', 'trodd'])

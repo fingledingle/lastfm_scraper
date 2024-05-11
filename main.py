@@ -1,10 +1,10 @@
-import rym_data
+# import rym_data
 
 from rym_data import RateYourMusic
-from ui import MainWindow, StartPage
-from customtkinter import *
-from PIL import Image
-from CTkMessagebox import CTkMessagebox
+# from ui import MainWindow, StartPage
+# from customtkinter import *
+# from PIL import Image
+# from CTkMessagebox import CTkMessagebox
 
 
 
