@@ -6,6 +6,7 @@ from last_fm_data import GrabArtist
 
 
 
+
 print('poopy')
 
 customtkinter.set_appearance_mode("dark")
@@ -301,39 +302,137 @@ class LastFmFrame(CTkFrame):
 class SpotifyFrame(CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-        self.clover = CTkImage(Image.open('./images/awesome.png'), size=(20,20))
 
-        # label = CTkLabel(self, text="Spotify Frame")
-        # label.pack()
+
+        def send_to_spotify(user_choice, method):
+            artists = user_choice.split('\n')
+            artists.pop()
+            print(artists)
+            
+
+
+
+
+        yotsuba_singing_image = CTkImage(Image.open("./images/yotsuba_singing.png"), size=(130, 160))
+        self.clover = CTkImage(Image.open('./images/awesome.png'), size=(20,20))
+        self.danbo_face_image = CTkImage(Image.open("./images/button.png"), size=(30, 20))
+
+
+
         self.configure(corner_radius=25)
 
-        def Upload_action(self):
-            self.filename = filedialog.askopenfilename()
-            print('Selected:', self.filename)
+        def Upload_action():
+            filename = filedialog.askopenfilename()
+            print('Selected:', filename)
+            return filename
 
+        def select_file(file_type):
+            if file_type == 'txt':
+                global selected_text
+                selected_text = Upload_action()
+                if selected_text:
+                    with open (selected_text) as file:
+                        self.artists = file.readlines()
+                        
+                        try:
+                            self.placing_artists_on_screen = CTkLabel(self, text=f'artists:\n\n{self.artists[0]}\n{self.artists[1]}\n{self.artists[2]}\n...woah so many')
+                            self.placing_artists_on_screen.place(anchor='center', relx=0.25, y=250)
+                        except IndexError:
+                            self.placing_artists_on_screen = CTkLabel(self, text=f'artists: \n\n not that many artists!\n but we will work with it!')
+                            self.placing_artists_on_screen.place(anchor='center', relx=0.25, y=250)
+                        
 
-
-        yotsuba_singing_image = CTkImage(Image.open("./images/yotsuba_singing.png"), size=(200, 200))
+        
         yotsuba_singing = CTkLabel(self, image=yotsuba_singing_image,
                                    text='', fg_color='transparent' )
 
-        yotsuba_singing.place(relx=0.5, y=200)
+        yotsuba_singing.place(relx=0.55, y=225)
+
+        
+
+
 
 
 
         def segmented_button_value(value):
             if value == 'automatic':
-                choose_file = CTkLabel(self, text='Choose your file!',
-                               fg_color = 'transparent')
-                choose_file.place(anchor='center', relx=0.5, y=100)
 
-                attach_file = CTkButton(self, text='', border_color='green',
+
+
+                self.choose_file = CTkLabel(self, text='Choose your file!',
+                               fg_color = 'transparent')
+                self.choose_file.place(anchor='center', relx=0.25, y=100)
+
+                self.attach_file = CTkButton(self, text='', border_color='green',
                                         border_width = 1, width=60, height=40,
                                         fg_color='transparent', 
-                                        image=self.clover)
-                attach_file.place(anchor='center', relx=0.5, y=140)
+                                        image=self.clover,
+                                        command= lambda: select_file('txt'))
+                self.attach_file.place(anchor='center', relx=0.25, y=140)
+
+
+
+                self.send_artists = CTkLabel(self, text='Start search!', 
+                                        fg_color = 'transparent')
+                self.send_artists.place(anchor='center', relx=0.75, y=100)
+
+                self.start_search_button = CTkButton(self,
+                                text="", border_color="green", 
+                                border_width=1,
+                                image=self.danbo_face_image, 
+                                width=60, height=40,
+                                )
+                self.start_search_button.place(anchor='center', relx=0.75, y=140)
+                
+
+                try:
+                    self.user_entry.place_forget()
+                    self.start_search_user_input.place_forget()
+                    self.write_it_down.place_forget()
+                except AttributeError:
+                    print('well this doesnt exist yet')
+
+
             else:
-                print('poo')
+
+                    
+                try:
+                    self.placing_artists_on_screen.place_forget()
+                except AttributeError:
+                    print('this doesnt exist yet!')
+                try:
+                    self.choose_file.place_forget()
+                    self.attach_file.place_forget()
+                    self.send_artists.place_forget()
+                    self.start_search_button.place_forget()
+                except AttributeError:
+                    print('well this doesnt either')
+            
+                
+
+
+                self.write_it_down = CTkLabel(self, text='write it yourself then!',
+                               fg_color = 'transparent')
+                self.write_it_down.place(anchor='center', relx=0.5, y=90)
+
+                
+                self.user_entry = CTkTextbox(self, width=200, height=100, border_width=3, font=('Arial', 10, 'bold'))
+                self.user_entry.place(relx=0.5, y=150, anchor='center')
+
+                
+
+                self.start_search_user_input = CTkButton(self,
+                                text="", border_color="green", 
+                                border_width=1,
+                                image=self.danbo_face_image, 
+                                width=60, height=40,
+                                command= lambda: send_to_spotify(self.user_entry.get('1.0', 'end'), method='manual'))
+                self.start_search_user_input.place(anchor='center', relx=0.3, y=230)
+
+
+
+
+
         
         
         methods = CTkSegmentedButton(self, 
