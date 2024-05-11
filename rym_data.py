@@ -79,3 +79,6 @@ class RateYourMusic:
         if page_tries != 26:
             print("sowwy i couldnt reach some pwages")
         return artists_list
+    
+    def get_playlists(self):
+        
