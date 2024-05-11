@@ -1,4 +1,3 @@
-
 import rym_data
 
 from rym_data import RateYourMusic
@@ -16,6 +15,9 @@ from CTkMessagebox import CTkMessagebox
 #     proxy_data = GetProxy()
 #     proxy_list = proxy_data.generate_proxy()
 
+
+rym = RateYourMusic('https://rateyourmusic.com/list/hypocrite/booby-fuck/')
+test = rym.get_playlists()
 
 
 
@@ -55,11 +57,18 @@ from CTkMessagebox import CTkMessagebox
 ##Making ui
 
 
-open_window = MainWindow()
 
 
 
-open_window.mainloop()
+
+
+
+
+# open_window = MainWindow()
+
+
+
+# open_window.mainloop()
 
 
 

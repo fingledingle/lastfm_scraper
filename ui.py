@@ -17,10 +17,6 @@ class MainWindow(CTk):
         super().__init__()
 
 
-
-
-
-
         #Setting the attributes for the startingpage keys
         self.scrapingbee_key = ''
         self.spotify_key = ''

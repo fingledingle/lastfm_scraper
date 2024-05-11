@@ -4,15 +4,19 @@ from scrapingbee import ScrapingBeeClient
 import random
 import time
 
-PROXY = "WEMYDVA0ROFLSW6HCZ41EW8H3KD5HQW2UM7YV49F55ZSYACY235WESS6RQ3IWOLTBXJNDFEL3FRPDRMN"
+PROXY = "PHV7UHVQJVGO8P1Q9V7LFASMWBKHHU87IA6Z39M05NNFL2ANIN68UYMWGDVCOT00HW1Q1OWB8ZGG4PHZ"
 
 
 class RateYourMusic:
     def __init__(self, user_input):
+        self.user_input = user_input
         self.link_single = f"https://rateyourmusic.com/charts/top/single/{user_input}"
         self.link_album = f"https://rateyourmusic.com/charts/top/album/{user_input}"
         self.client = ScrapingBeeClient(
             api_key=PROXY)
+        self.user_input = user_input
+        
+
 
     def get_top_single(self):
         page_tries = 0
@@ -81,4 +85,54 @@ class RateYourMusic:
         return artists_list
     
     def get_playlists(self):
+        page_tries = 1
+        artists_list = []
+        # jeff = True
+        # while jeff:
+        time.sleep(2)
+        print(f'Current page {page_tries}')
+        other_pages = f"{self.user_input}/{page_tries}"
+        response = self.client.get(other_pages)
+        response.raise_for_status()
+        website_data = response.text
+        soup = BeautifulSoup(website_data, "html.parser")
+        # try:
+        artists_data = soup.find_all(name='tr', class_=['treven', 'trodd'])
+        text_stuff_unorganized = [artist.getText() for artist in artists_data]
+        for i in text_stuff_unorganized:
+            print(i)
         
+            
+        # for each_tr_tag in soup:
+        #     artist_and_songs_data = soup.find(name="tr", class_=['treven', 'trodd'])
+        #     print(artist_and_songs_data)
+
+
+
+        # for item in artist_and_songs_data:
+        # artist_and_stuff = [artist.getText() for artist in artist_and_songs_data]
+        # print({artist_and_stuff})
+
+
+
+
+
+        #     for index, row in enumerate(artist_and_song, start=0):
+        #         try:
+        #             artist_jeff = {
+        #                 index: {
+        #                     "artist": artist_and_song[index + index + 1],
+        #                     "album": artist_and_song[index + index]
+        #                 }
+        #             }
+
+        #             artists_list.update(artist_jeff)
+        #         except IndexError:
+        #             continue
+
+        #     print(artists_list)
+        #     page_tries += 1
+        # if page_tries != 26:
+        #     print("sowwy i couldnt reach some pwages")
+        # return artists_list
+
