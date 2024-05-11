@@ -4,7 +4,6 @@ from rym_data import RateYourMusic
 from ui import MainWindow, StartPage
 from customtkinter import *
 from PIL import Image
-
 from CTkMessagebox import CTkMessagebox
 
 

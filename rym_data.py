@@ -100,7 +100,7 @@ class RateYourMusic:
         artists_data = soup.find_all(name='tr', class_=['treven', 'trodd'])
         text_stuff_unorganized = [artist.getText() for artist in artists_data]
         for i in text_stuff_unorganized:
-            print(i)
+            print(f'---------------------\n{i}--------------------')
         
             
         # for each_tr_tag in soup:
