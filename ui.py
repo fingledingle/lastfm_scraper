@@ -70,7 +70,7 @@ class MainWindow(CTk):
 class StartPage(CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-
+        
         print('currently at page start_page')
 
         yotsuba_image = CTkImage(Image.open("./images/yotsuba.png"), size=(150, 150))
@@ -121,16 +121,12 @@ class StartPage(CTkFrame):
         master.show_frame(PageOne)
 
 
-    # def getkey(self, master):
-    #     return (master.scrapingbee_key, master.spotify_key)
-        
-
 
 class PageOne(CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-        self.place(x=2, y=10)
-        self.configure(fg_color = 'grey')
+        # self.place(x=5, y=10)
+        self.configure(corner_radius=25)
     
         #printing the key for test purposes
         print("ScrapingBee Key:", master.scrapingbee_key)
@@ -138,7 +134,7 @@ class PageOne(CTkFrame):
         
 
         self.sub_frames = {}
-        for ServiceFrame in (LastFmFrame, SpotifyFrame, RymFrame):
+        for ServiceFrame in (LastFmFrame, SpotifyFrame): #RymFrame
             frame = ServiceFrame(self)  
 
             self.sub_frames[ServiceFrame] = frame
@@ -148,7 +144,7 @@ class PageOne(CTkFrame):
 
         self.create_service_button('LastFM', LastFmFrame, 150)
         self.create_service_button('Spotify', SpotifyFrame, 232)
-        self.create_service_button('RYM', RymFrame, 190)
+        # self.create_service_button('RYM', RymFrame, 190)
 
         self.show_sub_frames(LastFmFrame)
 
@@ -185,7 +181,7 @@ class PageOne(CTkFrame):
         for frame in self.sub_frames.values():
             frame.place_forget()
         frame = self.sub_frames[frame_class]
-        frame.place(x=160, y=4, relwidth=0.65, relheight=0.98)
+        frame.place(relx=0.28, y=8, relwidth=0.71, relheight=0.96)
         
 
 
@@ -193,7 +189,7 @@ class LastFmFrame(CTkFrame):
     def __init__(self, master):
         super().__init__(master)    
         
-
+        self.configure(corner_radius=25)
         def segmented_button_value(value):
             print(value)
             if value == 'similar artists':
@@ -295,69 +291,67 @@ class LastFmFrame(CTkFrame):
                 grab_artists = GrabArtist(choice_method, str(scrapingbee_key), page_quantity)
                 getting_same_genre = grab_artists.get_tag_artists()
 
-
-            #Do spotify stuff
-
-
-
-
-
-
-
-
-
-
-
-
-
-            # artist_names = [list_of_names for row in unorganized_artist_list for list_of_names in row]
-
-
-            # # artist_tags = grab_artists.get_genre()
-
-            # with open(f"similar_artists_to_{similar_artist}", "w", encoding="utf-8") as file:
-            #     for artist in artist_names:
-            #         file.write(f"{artist}\n")   
-
-
-
-            #Spotify stuff
+################Spotify stuff###################
+            
         
  ####################################################################################
-
-
-
-
-        #CAnvas here probably
-
-
-
-    
-
-
-        
-
-
-
 
 
 
 class SpotifyFrame(CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-        label = CTkLabel(self, text="Spotify Frame")
-        label.pack()
+        self.clover = CTkImage(Image.open('./images/awesome.png'), size=(20,20))
+
+        # label = CTkLabel(self, text="Spotify Frame")
+        # label.pack()
+        self.configure(corner_radius=25)
+
+        def Upload_action(self):
+            self.filename = filedialog.askopenfilename()
+            print('Selected:', self.filename)
 
 
-class RymFrame(CTkFrame):
-    def __init__(self, master):
-        super().__init__(master)
-        label = CTkLabel(self, text='RYM Frame')
-        label.pack()
+
+        yotsuba_singing_image = CTkImage(Image.open("./images/yotsuba_singing.png"), size=(200, 200))
+        yotsuba_singing = CTkLabel(self, image=yotsuba_singing_image,
+                                   text='', fg_color='transparent' )
+
+        yotsuba_singing.place(relx=0.5, y=200)
+
+
+
+        def segmented_button_value(value):
+            if value == 'automatic':
+                choose_file = CTkLabel(self, text='Choose your file!',
+                               fg_color = 'transparent')
+                choose_file.place(anchor='center', relx=0.5, y=100)
+
+                attach_file = CTkButton(self, text='', border_color='green',
+                                        border_width = 1, width=60, height=40,
+                                        fg_color='transparent', 
+                                        image=self.clover)
+                attach_file.place(anchor='center', relx=0.5, y=140)
+            else:
+                print('poo')
+        
+        
+        methods = CTkSegmentedButton(self, 
+                                     values=['automatic', 'manual'],
+                                     width=100, command=segmented_button_value)
+        methods.place(anchor='center', relx=0.5, y=50)
+        methods.set('methods')
+
+        
+        
 
 
 
 
-# if __name__ == "__main__":
-# app = MainWindow()
-# app.mainloop()
+
+
+# class RymFrame(CTkFrame):
+#     def __init__(self, master):
+#         super().__init__(master)
+#         label = CTkLabel(self, text='RYM Frame')
+#         label.pack()

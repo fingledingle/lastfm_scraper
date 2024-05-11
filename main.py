@@ -1,12 +1,10 @@
-# import rym_data
 
-from rym_data import RateYourMusic
-# from ui import MainWindow, StartPage
+from ui import MainWindow
 # from customtkinter import *
 # from PIL import Image
 # from CTkMessagebox import CTkMessagebox
-
-
+# from rym_data import RateYourMusic
+    
 
 
 
@@ -15,8 +13,11 @@ from rym_data import RateYourMusic
 #     proxy_list = proxy_data.generate_proxy()
 
 
-rym = RateYourMusic('https://rateyourmusic.com/list/hypocrite/booby-fuck/')
-test = rym.get_playlists()
+
+#RYM DID NOT GO WELL SINCE IT BLOCKS SCRAPERBEE NOW BUT 
+#WILL TRY LATER WITH SOMETHING ELSE!!!
+# rym = RateYourMusic('https://rateyourmusic.com/list/hypocrite/booby-fuck/')
+# test = rym.get_playlists()
 
 
 
@@ -63,11 +64,11 @@ test = rym.get_playlists()
 
 
 
-# open_window = MainWindow()
+open_window = MainWindow()
 
 
 
-# open_window.mainloop()
+open_window.mainloop()
 
 
 
