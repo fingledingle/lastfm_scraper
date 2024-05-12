@@ -11,7 +11,7 @@ class Spotify_thingy:
         
 
         self.artists_names = artists_names
-        self.song_quantity = int(song_quantity)
+        self.song_quantity = song_quantity
         self.client_id = client_id
         self.client_secret = client_secret
 
@@ -46,7 +46,7 @@ class Spotify_thingy:
 
     def search_and_add(self):
 
-        for artists in self.artists_names[0]:
+        for artists in self.artists_names:
 
             result = self.sp.search(q=artists, type='artist')
             #if the quantity of artists items is bigger than 0 then the program runs
@@ -55,7 +55,7 @@ class Spotify_thingy:
                 top_tracks = self.sp.artist_top_tracks(artists_id)
                 #
                 num_tracks_to_return = min(self.song_quantity, len(top_tracks['tracks']))
-                print(f'Top {num_tracks_to_return} tracks for {artists}')
+                print(f'Top {num_tracks_to_return} tracks for {self.artists_names}')
                 for track in top_tracks['tracks'][:num_tracks_to_return]:
                     print(f'adding the song {track["name"]} by {artists} to playlist')
                     self.song_list.append(track['uri'])
@@ -63,22 +63,22 @@ class Spotify_thingy:
                 print(f'No artists was found with the name {artists}')
         
         self.sp.user_playlist_add_tracks(self.user_id, self.playlist_id, self.song_list)
-
+        
         
 
 
         
 
 
-# artists_names = ['uami', 'arakoi', 'nuito']
+artists_names = ['uami', 'arakoi', 'nuito']
 
-# quantity = 3
+quantity = 3
 
-# client_id = '2c6d4e17556345be8a08e0e016de4f06'
-# client_secret = '0875d4f8e27c4a088fb8e3e70145091c'
+client_id = '2c6d4e17556345be8a08e0e016de4f06'
+client_secret = '0875d4f8e27c4a088fb8e3e70145091c'
 
-# spotify = Spotify_thingy(artists_names=artists_names, song_quantity=quantity, client_id=client_id, client_secret=client_secret)
-# start_searching = spotify.search_and_add()
+spotify = Spotify_thingy(artists_names=artists_names, song_quantity=quantity, client_id=client_id, client_secret=client_secret)
+start_searching = spotify.search_and_add()
 
 
 

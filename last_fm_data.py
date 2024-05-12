@@ -3,20 +3,22 @@ from bs4 import BeautifulSoup
 import random
 import time
 from scrapingbee import ScrapingBeeClient
-
+from spotify import Spotify_thingy
 
 
 
 class GrabArtist:
 
 
-    def __init__(self, user_choice, scrapingbee_key, page_quantity):
+    def __init__(self, user_choice, scrapingbee_key, spotify_key , page_quantity, song_quantity):
         self.link_similar = f"https://www.last.fm/music/{user_choice}"
         self.link_artist_genres = f"https://www.last.fm/music/{user_choice}"
         self.client = ScrapingBeeClient(
             api_key=scrapingbee_key)
         self.page_quantity = int(page_quantity)
         self.user_choice = user_choice
+        self.spotify_key = spotify_key
+        self.song_quantity = song_quantity
         
 
     def get_similar_artists(self):
@@ -71,6 +73,8 @@ class GrabArtist:
             else: 
                 print("We're not there yet mate wait a little bit")
 
+        spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
+        start_searching = spotify.search_and_add()
 
         return artists_list
     
@@ -143,7 +147,8 @@ class GrabArtist:
             else: 
                 print("We're not there yet mate wait a little bit")
 
-
+        spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
+        start_searching = spotify.search_and_add()
         return artists_list                
 
 

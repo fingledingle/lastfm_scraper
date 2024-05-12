@@ -77,7 +77,7 @@ class StartPage(CTkFrame):
         yotsuba_image = CTkImage(Image.open("./images/yotsuba.png"), size=(150, 150))
         yotsuba = customtkinter.CTkLabel(self, text="", fg_color="transparent",
                                              image=yotsuba_image)
-        yotsuba.place(x=175, y=40)
+        yotsuba.place(x=175, y=20)
 
 
 
@@ -86,21 +86,24 @@ class StartPage(CTkFrame):
         scrapingbee_image = CTkImage(Image.open("./images/bee.png"), size=(30, 30))
 
         scrapingbee_label = customtkinter.CTkLabel(self, text="", fg_color="transparent", image=scrapingbee_image)
-        scrapingbee_label.place(x=70, y=193)
+        scrapingbee_label.place(x=70, y=173)
 
         self.scrapingbee = customtkinter.CTkEntry(self, placeholder_text="BEEKEY", width=300, height=40, corner_radius=50)
-        self.scrapingbee.place(x=110, y=190)
+        self.scrapingbee.place(x=110, y=170)
 
 
         #SPOTIFY ENTRY AND LOGO
         self.spotify_image = CTkImage(Image.open("./images/spotify.png"), size=(30, 30))
 
         spotify_label = customtkinter.CTkLabel(self, text="", fg_color="transparent", image=self.spotify_image)
-        spotify_label.place(x=70, y=245)
+        spotify_label.place(x=70, y=225)
 
 
-        self.spotify = customtkinter.CTkEntry(self, placeholder_text="SPOTIFYKEY", width=300, height=40, corner_radius=50)
-        self.spotify.place(x=110, y=240)
+        self.spotify_client_id = customtkinter.CTkEntry(self, placeholder_text="client id", width=300, height=40, corner_radius=50)
+        self.spotify_client_id.place(x=110, y=220)
+
+        self.spotify_secret_id = customtkinter.CTkEntry(self, placeholder_text="secret id", width=300, height=40, corner_radius=50)
+        self.spotify_secret_id.place(x=110, y=270)
 
 
 
@@ -110,7 +113,7 @@ class StartPage(CTkFrame):
         login_button = customtkinter.CTkButton(self, text="", image=self.danbo_face_image, fg_color="transparent",
                                                    border_color="white", hover_color="grey", border_width=1, corner_radius=5,
                                                    height=40, width=60, command=lambda: self.login(master))
-        login_button.place(x=220, y=300)
+        login_button.place(x=220, y=330)
 
 
 
@@ -118,7 +121,7 @@ class StartPage(CTkFrame):
     #Settings the keys as master so they can be used around the whole program
     def login(self, master):
         master.scrapingbee_key = self.scrapingbee.get() 
-        master.spotify_key = self.spotify.get()
+        master.spotify_key = [self.spotify_client_id.get(), self.spotify_secret_id.get()]
         master.show_frame(PageOne)
 
 
@@ -195,6 +198,7 @@ class LastFmFrame(CTkFrame):
             print(value)
             if value == 'similar artists':
                 print(f'the key test {master.master.scrapingbee_key}')
+                print(f'the key test for your spotify is: {master.master.spotify_key}')
                 self.similar_artists = CTkEntry(self, placeholder_text='artist name', width=150, corner_radius=50)
                 self.similar_artists.place(relx=0.5, y=290, anchor='center')
 
@@ -205,8 +209,9 @@ class LastFmFrame(CTkFrame):
                                 width=60, height=40,
                                 command=lambda: last_fm_search(choice_method = self.similar_artists.get(), 
                                                                page_quantity= self.page_quantity.get(),
-                                                               songs_quantity= self.songs_quantity.get(),
+                                                               song_quantity= self.song_quantity.get(),
                                                                scrapingbee_key= master.master.scrapingbee_key,
+                                                               spotify_key=master.master.spotify_key,
                                                                choice_type = 'similar artists'))
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
 
@@ -222,8 +227,9 @@ class LastFmFrame(CTkFrame):
                                 width=60, height=40,
                                 command=lambda: last_fm_search(choice_method = self.similar_genre.get(), 
                                                                 page_quantity= self.page_quantity.get(),
-                                                                songs_quantity= self.songs_quantity.get(),
+                                                                song_quantity= self.song_quantity.get(),
                                                                 scrapingbee_key= master.master.scrapingbee_key,
+                                                                spotify_key=master.master.spotify_key,
                                                                 choice_type = 'same genre'))
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
 
@@ -267,8 +273,8 @@ class LastFmFrame(CTkFrame):
         self.page_quantity = CTkEntry(self, width=45, corner_radius=50)
         self.page_quantity.place(relx=0.33, y=220)
 
-        self.songs_quantity = CTkEntry(self, width=45, corner_radius=50)
-        self.songs_quantity.place(relx=0.55, y=220)
+        self.song_quantity = CTkEntry(self, width=45, corner_radius=50)
+        self.song_quantity.place(relx=0.55, y=220)
 
 
 
@@ -277,19 +283,19 @@ class LastFmFrame(CTkFrame):
 
 
 ###########################H--Handling the search--(similar artist)####################################
-        def last_fm_search(choice_method, page_quantity, songs_quantity,  scrapingbee_key, choice_type):
+        def last_fm_search(choice_method, page_quantity, song_quantity,  scrapingbee_key, choice_type, spotify_key):
             #Check if the  choice was genre method or similar artist method
 
             if choice_type == 'similar artists':
                 print(f'The artist is: {choice_method}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
-                grab_artists = GrabArtist(choice_method, str(scrapingbee_key), page_quantity)
+                grab_artists = GrabArtist(user_choice=choice_method, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
                 getting_similar_artists = grab_artists.get_similar_artists()
 
 
 
             elif choice_type == 'same genre':
                 print(f'The genre is: {choice_method}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
-                grab_artists = GrabArtist(choice_method, str(scrapingbee_key), page_quantity)
+                grab_artists = GrabArtist(user_choice=choice_method, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
                 getting_same_genre = grab_artists.get_tag_artists()
 
 ################Spotify stuff###################

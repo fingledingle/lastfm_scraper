@@ -1,46 +1,61 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-
-# Setup credentials and Spotify client
-client_id = '2c6d4e17556345be8a08e0e016de4f06'
-client_secret = '0875d4f8e27c4a088fb8e3e70145091c'
-redirect_uri = 'http://example.com'
-scope = 'playlist-modify-public playlist-modify-private'
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
-                                               client_secret=client_secret,
-                                               redirect_uri=redirect_uri,
-                                               scope=scope))
-
-def get_most_played_song_uri(artist_name):
-    song_uris = []  # List to store song URIs
-    for artist in artist_name:
-        result = sp.search(q=artist, type='artist')
-        if result['artists']['items']:
-            artist_id = result['artists']['items'][0]['id']
-            top_tracks = sp.artist_top_tracks(artist_id)
-            for track in top_tracks['tracks'][:2]:  # Get top 2 tracks
-                song_uris.append(track['uri'])
-                print(f'Adding {track["name"]} by {artist}')
-    return song_uris
-
-# Correctly set your playlist_id to a valid Spotify playlist URI
-
-
-user_id = sp.me()['id']
-
-playlist_name = 'Hello my name is jeff'
-
-playlist = sp.user_playlist_create(user_id, playlist_name, public=False)
-    
-playlist_id = playlist['id']
+import tkinter as tk
+import threading
+import queue
 
 
 
-artist_names = ['bladee', 'thaiboy', 'ecco2k']
-track_uris = get_most_played_song_uri(artist_names)
 
-# Add tracks to playlist and change playlist details
-if track_uris:
-    sp.playlist_add_items(playlist_id, track_uris)
-else:
-    print("No tracks to add.")
+
+def console_logic(input_queue):
+    while True:
+        # Wait for input from the GUI
+        user_input = input_queue.get()
+        if user_input == "QUIT":
+            print("Exiting thread.")
+            break
+        print(f"Received input: {user_input}")
+
+class App(tk.Tk):
+    def __init__(self, input_queue):
+        super().__init__()
+        self.input_queue = input_queue
+        self.title("GUI Input to Console")
+        self.geometry("300x100")
+        
+        self.input_entry = tk.Entry(self)
+        self.input_entry.pack(pady=10)
+        
+        self.submit_button = tk.Button(self, text="Submit", command=self.submit_input)
+        self.submit_button.pack(pady=10)
+        
+        self.quit_button = tk.Button(self, text="Quit", command=self.quit_app)
+        self.quit_button.pack(pady=10)
+
+    def submit_input(self):
+        jeff = input('whats your mom age lil boy?')
+        if jeff == 12:
+            print('wow awesome')
+
+        # Get input from Entry widget and put it in the queue
+        user_input = self.input_entry.get()
+        self.input_queue.put(user_input)
+        self.input_entry.delete(0, tk.END)  # Clear the entry box
+
+    def quit_app(self):
+        self.input_queue.put("QUIT")
+        self.destroy()
+
+def main():
+    input_queue = queue.Queue()
+    app = App(input_queue)
+
+    # Thread for console logic
+    thread = threading.Thread(target=console_logic, args=(input_queue,))
+    thread.daemon = True
+    thread.start()
+
+    app.mainloop()
+    thread.join()  # Wait for the thread to finish before exiting completely
+
+if __name__ == "__main__":
+    main()
