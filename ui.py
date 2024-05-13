@@ -53,14 +53,11 @@ class MainWindow(CTk):
 
     def show_frame(self, page_class):
         #For the frame in self.frames.value() < - basically the values inside the self.frames dictionary
-        print("Attempting to show frame:", page_class.__name__)
         for frame in self.frames.values():
-            print("Hiding frame:", frame)
             frame.place_forget()  # This effectively hides the frame
         #frame will be = the dictionary value that is = page_class (page_class being the Class passed through self.show_frame)    
         frame = self.frames[page_class]
         #Places the frame that is = the value inside the dic that we previously got 
-        print("Showing frame:", frame)
         frame.place(relx=0.5, rely=0.5, anchor='center', relwidth=1, relheight=1)
 
     
@@ -73,7 +70,6 @@ class StartPage(CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         
-        print('currently at page start_page')
 
         yotsuba_image = CTkImage(Image.open("./images/yotsuba.png"), size=(150, 150))
         yotsuba = customtkinter.CTkLabel(self, text="", fg_color="transparent",
@@ -97,7 +93,7 @@ class StartPage(CTkFrame):
         self.spotify_image = CTkImage(Image.open("./images/spotify.png"), size=(30, 30))
 
         spotify_label = customtkinter.CTkLabel(self, text="", fg_color="transparent", image=self.spotify_image)
-        spotify_label.place(x=70, y=225)
+        spotify_label.place(x=70, y=250)
 
 
         self.spotify_client_id = customtkinter.CTkEntry(self, placeholder_text="client id", width=300, height=40, corner_radius=50)
@@ -132,10 +128,6 @@ class PageOne(CTkFrame):
         super().__init__(master)
         # self.place(x=5, y=10)
         self.configure(corner_radius=25)
-    
-        #printing the key for test purposes
-        print("ScrapingBee Key:", master.scrapingbee_key)
-        print("Spotify Key:", master.spotify_key)
         
 
         self.sub_frames = {}
@@ -198,8 +190,6 @@ class LastFmFrame(CTkFrame):
         def segmented_button_value(value):
             print(value)
             if value == 'similar artists':
-                print(f'the key test {master.master.scrapingbee_key}')
-                print(f'the key test for your spotify is: {master.master.spotify_key}')
                 self.similar_artists = CTkEntry(self, placeholder_text='artist name', width=150, corner_radius=50)
                 self.similar_artists.place(relx=0.5, y=290, anchor='center')
 
@@ -217,7 +207,6 @@ class LastFmFrame(CTkFrame):
                 start_search_button.place(relx=0.5, y= 340, anchor='center')
 
             else:
-                print(f'the key test {master.master.spotify_key}')
                 self.similar_genre = CTkEntry(self, placeholder_text='genre name', width=150, corner_radius=50)
                 self.similar_genre.place(relx=0.5, y=290, anchor='center')
 
@@ -279,7 +268,6 @@ class LastFmFrame(CTkFrame):
 
 
 
-        #CAnvas here probably
 
 
 
@@ -288,7 +276,7 @@ class LastFmFrame(CTkFrame):
             #Check if the  choice was genre method or similar artist method
 
             if choice_type == 'similar artists':
-                print(f'The artist is: {user_choice}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+                print(f'The artist is: {user_choice}\n The quantity is: {page_quantity}\n The keys are\n for scrapingbee: {scrapingbee_key}\n for spotify: {spotify_key}')
 
 
                 if " " in user_choice:
@@ -301,7 +289,7 @@ class LastFmFrame(CTkFrame):
 
 
             elif choice_type == 'same genre':
-                print(f'The genre is: {user_choice}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+                print(f'The genre is: {user_choice}\n The quantity is: {page_quantity}\n The keys are\n for scrapingbee: {scrapingbee_key}\n for spotify: {spotify_key}')
 
                 if " " in user_choice:
                     
@@ -358,7 +346,6 @@ class SpotifyFrame(CTkFrame):
                 if selected_text:
                     with open (selected_text) as file:
                         self.artists = file.readlines()
-                        # print(self.artists)
                         
                         try:
                             self.placing_artists_on_screen = CTkLabel(self, text=f'artists:\n\n{self.artists[0]}\n{self.artists[1]}\n{self.artists[2]}\n...woah so many')

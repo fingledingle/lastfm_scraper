@@ -19,17 +19,13 @@ class GrabArtist:
         self.user_choice = user_choice
         self.spotify_key = spotify_key
         self.song_quantity = song_quantity
-        print(user_choice)
-        print(self.link_similar)
+        print(f'We will attempt to access the page {self.link_similar}')
         
 
     def get_similar_artists(self):
-        page_tries = 0
         artists_list = []
         for page in range(1, 26):
-            time.sleep(2)
-            print(page)
-            page_tries+=1     
+            time.sleep(2)   
             other_pages = f"{self.link_similar}/+similar?page={page}"
             response = self.client.get(other_pages)
             response.raise_for_status()
@@ -37,12 +33,7 @@ class GrabArtist:
             soup = BeautifulSoup(artist_data, "html.parser")
             artist = soup.find_all(name="a", class_="link-block-target")
             user_choice_pages = [artist.getText() for artist in artist]
-            print(user_choice_pages)
             artists_list.append(user_choice_pages)
-
-
-            print(f'This is the lenght of the appended artists inside the list {len(artists_list)}')
-            print(f'This is the quantity of artists {self.page_quantity}')
 
 
 
@@ -100,11 +91,9 @@ class GrabArtist:
 
     def get_tag_artists(self):
         self.link_tag = f"https://www.last.fm/tag/{self.user_choice}/artists"
-        page_tries = 0
         artists_list = []
         for page in range(1, 26):
             time.sleep(2)
-            print(page)
             other_pages = f"{self.link_tag}?page={page}"
             response = self.client.get(other_pages)
             response.raise_for_status()
@@ -113,11 +102,8 @@ class GrabArtist:
             artist = soup.find_all(name="a", class_="link-block-target")
             same_genre_artists = [artist.getText() for artist in artist]
             del same_genre_artists[0:2]
-            print(same_genre_artists)
             artists_list.append(same_genre_artists)
 
-            print(f'This is the lenght of the appended artists inside the list {len(artists_list)}')
-            print(f'This is the quantity of pages {self.page_quantity}')
 
 
             #Check if the quantity matches the quantity that the user chose

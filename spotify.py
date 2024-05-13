@@ -67,18 +67,6 @@ class Spotify_thingy:
         
 
 
-        
-
-
-# artists_names = ['uami', 'arakoi', 'nuito']
-
-# quantity = 3
-
-# client_id = '2c6d4e17556345be8a08e0e016de4f06'
-# client_secret = '0875d4f8e27c4a088fb8e3e70145091c'
-
-# spotify = Spotify_thingy(artists_names=artists_names, song_quantity=quantity, client_id=client_id, client_secret=client_secret)
-# start_searching = spotify.search_and_add()
-
+    
 
 
