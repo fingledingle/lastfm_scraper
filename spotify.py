@@ -1,5 +1,5 @@
 
-
+from CTkMessagebox import CTkMessagebox
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -38,7 +38,7 @@ class Spotify_thingy:
         
         self.playlist_id = self.playlist['id']
 
-
+        self.song_name_and_artists = {}
         self.song_list= []
 
 
@@ -58,11 +58,21 @@ class Spotify_thingy:
                 print(f'Top {num_tracks_to_return} tracks for {artists}')
                 for track in top_tracks['tracks'][:num_tracks_to_return]:
                     print(f'adding the song {track["name"]} by {artists} to playlist')
+                    self.song_name_and_artists[f'{artists}'] = {track['name']}
                     self.song_list.append(track['uri'])
             else:
                 print(f'No artists was found with the name {artists}')
-        
-        self.sp.user_playlist_add_tracks(self.user_id, self.playlist_id, self.song_list)
+
+
+
+        msg = CTkMessagebox(title="Hello!", message=f"These songs will be added {self.song_name_and_artists} are you sure you wanna continue?",
+                    icon="question", option_1="Yes", option_2="No")
+        response = msg.get()
+
+        if response=="Yes":
+            self.sp.user_playlist_add_tracks(self.user_id, self.playlist_id, self.song_list)
+        else:
+            pass
 
         
 

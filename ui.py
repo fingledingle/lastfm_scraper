@@ -1,6 +1,7 @@
 import tkinter as tk
 from customtkinter import *
 import customtkinter
+from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from last_fm_data import GrabArtist
 from spotify import Spotify_thingy
@@ -273,30 +274,40 @@ class LastFmFrame(CTkFrame):
 
 ###########################H--Handling the search--(similar artist)####################################
         def last_fm_search(user_choice, page_quantity, song_quantity,  scrapingbee_key, choice_type, spotify_key):
-            #Check if the  choice was genre method or similar artist method
-
-            if choice_type == 'similar artists':
-                print(f'The artist is: {user_choice}\n The quantity is: {page_quantity}\n The keys are\n for scrapingbee: {scrapingbee_key}\n for spotify: {spotify_key}')
+            page_quantity = int(page_quantity)
+            song_quantity = int(song_quantity)
 
 
-                if " " in user_choice:
-           
-                    user_choice = user_choice.replace(" ", "+")
-
-                grab_artists = GrabArtist(user_choice=user_choice, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
-                getting_similar_artists = grab_artists.get_similar_artists()
+            if song_quantity == '' or page_quantity == '':
+                CTkMessagebox(title='HEY!!!', message='It appears you left some of the fields empty!!', icon="cancel")
+            elif page_quantity >= 27:
+                CTkMessagebox(title='HEY!!!', message="Woah that's a lot of pages! try to lower it to a number below 27", icon="cancel")
 
 
+            else:
+                #Check if the  choice was genre method or similar artist method
+                if choice_type == 'similar artists':
+                    print(f'The artist is: {user_choice}\n The quantity is: {page_quantity}\n The keys are\n for scrapingbee: {scrapingbee_key}\n for spotify: {spotify_key}')
+                
 
-            elif choice_type == 'same genre':
-                print(f'The genre is: {user_choice}\n The quantity is: {page_quantity}\n The keys are\n for scrapingbee: {scrapingbee_key}\n for spotify: {spotify_key}')
+                    if " " in user_choice:
+            
+                        user_choice = user_choice.replace(" ", "+")
 
-                if " " in user_choice:
-                    
-                    user_choice = user_choice.replace(" ", "+")
+                    grab_artists = GrabArtist(user_choice=user_choice, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
+                    getting_similar_artists = grab_artists.get_similar_artists()
 
-                grab_artists = GrabArtist(user_choice=user_choice, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
-                getting_same_genre = grab_artists.get_tag_artists()
+
+
+                elif choice_type == 'same genre':
+                    print(f'The genre is: {user_choice}\n The quantity is: {page_quantity}\n The keys are\n for scrapingbee: {scrapingbee_key}\n for spotify: {spotify_key}')
+
+                    if " " in user_choice:
+                        
+                        user_choice = user_choice.replace(" ", "+")
+
+                    grab_artists = GrabArtist(user_choice=user_choice, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
+                    getting_same_genre = grab_artists.get_tag_artists()
 
 ################Spotify stuff###################
             
