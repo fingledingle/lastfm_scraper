@@ -76,6 +76,10 @@ class Spotify_thingy:
                     self.sp.playlist_add_items(self.playlist_id, [each_item])
 
 
+
+
+
+
         elif self.methods == 'single page':
             for artists in artist_list:
                 result = self.sp.search(q=artists, type='artist')

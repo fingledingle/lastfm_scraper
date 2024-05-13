@@ -1,10 +1,8 @@
-import requests
 from bs4 import BeautifulSoup
-import random
 import time
 from scrapingbee import ScrapingBeeClient
 from spotify import Spotify_thingy
-
+import os
 
 
 class GrabArtist:
@@ -19,6 +17,11 @@ class GrabArtist:
         self.user_choice = user_choice
         self.spotify_key = spotify_key
         self.song_quantity = song_quantity
+
+        folder_name = "artists_folder"
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+
         print(f'We will attempt to access the page {self.link_similar}')
         
 
@@ -48,7 +51,11 @@ class GrabArtist:
                     print(artists_list)
                     print('lenght was 1')
                     self.method = 'single page'
-                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
+                    
+
+
+
+                    with open(f"artists_folder/user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in artists_list[0]:
                             file.write(f"{fellas}\n")
                     break
@@ -59,8 +66,11 @@ class GrabArtist:
                     print(artists_list)
                     print('the lenght was a higher value than 1')
                     self.method = 'multiple pages'
+
+
+
                     long_artist_list = [list_of_names for row in artists_list for list_of_names in row]
-                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
+                    with open(f"artists_folder/user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in long_artist_list:
                             file.write(f"{fellas}\n")
                     break
@@ -117,8 +127,10 @@ class GrabArtist:
 
                 if self.page_quantity == 1:
                     print(artists_list)
+                    self.method = 'single page'
                     print('lenght was 1')
-                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
+
+                    with open(f"artists_folder/user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in artists_list[0]:
                             file.write(f"{fellas}\n")
                     break
@@ -127,9 +139,10 @@ class GrabArtist:
                 #Flattening if the list is longer than 1 page
                 elif self.page_quantity > 1:
                     print(artists_list)
+                    self.method = 'multiple pages'
                     print('the lenght was a higher value than 1')
                     long_artist_list = [list_of_names for row in artists_list for list_of_names in row]
-                    with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
+                    with open(f"artists_folder/user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in long_artist_list:
                             file.write(f"{fellas}\n")
                     break
@@ -142,7 +155,7 @@ class GrabArtist:
 
 
 
-        spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
+        spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1], methods=self.method)
         start_searching = spotify.search_and_add()
         return artists_list                
 
