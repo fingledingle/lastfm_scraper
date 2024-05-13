@@ -40,13 +40,14 @@ class GrabArtist:
             #Check if the quantity matches the quantity that the user chose
             if len(artists_list) == self.page_quantity:
                 print('it ended!')
-                print('##############################################')
+                print('##############################################') 
 
 
 
                 if self.page_quantity == 1:
                     print(artists_list)
                     print('lenght was 1')
+                    self.method = 'single page'
                     with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in artists_list[0]:
                             file.write(f"{fellas}\n")
@@ -57,6 +58,7 @@ class GrabArtist:
                 elif self.page_quantity > 1:
                     print(artists_list)
                     print('the lenght was a higher value than 1')
+                    self.method = 'multiple pages'
                     long_artist_list = [list_of_names for row in artists_list for list_of_names in row]
                     with open(f"user_choices_to_{self.user_choice}", "w", encoding="utf-8") as file:
                         for fellas in long_artist_list:
@@ -66,7 +68,7 @@ class GrabArtist:
             else: 
                 print("We're not there yet mate wait a little bit")
 
-        spotify = Spotify_thingy(artists_names=artists_list[0], song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
+        spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1], methods=self.method)
         start_searching = spotify.search_and_add()
 
         return artists_list
@@ -134,6 +136,11 @@ class GrabArtist:
                         
             else: 
                 print("We're not there yet mate wait a little bit")
+
+
+
+
+
 
         spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
         start_searching = spotify.search_and_add()

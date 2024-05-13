@@ -340,7 +340,7 @@ class SpotifyFrame(CTkFrame):
                 
 
 
-            spotify = Spotify_thingy(artists_names=artists, song_quantity=5, client_id=master.master.spotify_key[0], client_secret=master.master.spotify_key[1])
+            spotify = Spotify_thingy(artists_names=artists, song_quantity=5, client_id=master.master.spotify_key[0], client_secret=master.master.spotify_key[1], methods='single page')
             start_searching = spotify.search_and_add()
 
 
