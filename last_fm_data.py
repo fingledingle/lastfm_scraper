@@ -19,6 +19,8 @@ class GrabArtist:
         self.user_choice = user_choice
         self.spotify_key = spotify_key
         self.song_quantity = song_quantity
+        print(user_choice)
+        print(self.link_similar)
         
 
     def get_similar_artists(self):
@@ -73,7 +75,7 @@ class GrabArtist:
             else: 
                 print("We're not there yet mate wait a little bit")
 
-        spotify = Spotify_thingy(artists_names=artists_list, song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
+        spotify = Spotify_thingy(artists_names=artists_list[0], song_quantity=self.song_quantity, client_id=self.spotify_key[0], client_secret=self.spotify_key[1])
         start_searching = spotify.search_and_add()
 
         return artists_list

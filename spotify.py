@@ -46,7 +46,7 @@ class Spotify_thingy:
 
     def search_and_add(self):
 
-        for artists in self.artists_names[0]:
+        for artists in self.artists_names:
 
             result = self.sp.search(q=artists, type='artist')
             #if the quantity of artists items is bigger than 0 then the program runs

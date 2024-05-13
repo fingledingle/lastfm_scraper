@@ -6,6 +6,7 @@
 
 # PROXY = "test"
 
+#Discontinued bc RYM IS A BITCH
 
 # class RateYourMusic:
 #     def __init__(self, user_input):

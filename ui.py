@@ -3,6 +3,7 @@ from customtkinter import *
 import customtkinter
 from PIL import Image
 from last_fm_data import GrabArtist
+from spotify import Spotify_thingy
 
 
 
@@ -207,7 +208,7 @@ class LastFmFrame(CTkFrame):
                                 hover_color="grey", border_width=1,
                                 image=self.danbo_face_image, 
                                 width=60, height=40,
-                                command=lambda: last_fm_search(choice_method = self.similar_artists.get(), 
+                                command=lambda: last_fm_search(user_choice = self.similar_artists.get(), 
                                                                page_quantity= self.page_quantity.get(),
                                                                song_quantity= self.song_quantity.get(),
                                                                scrapingbee_key= master.master.scrapingbee_key,
@@ -225,7 +226,7 @@ class LastFmFrame(CTkFrame):
                                 hover_color="grey", border_width=1,
                                 image=self.danbo_face_image, 
                                 width=60, height=40,
-                                command=lambda: last_fm_search(choice_method = self.similar_genre.get(), 
+                                command=lambda: last_fm_search(user_choice = self.similar_genre.get(), 
                                                                 page_quantity= self.page_quantity.get(),
                                                                 song_quantity= self.song_quantity.get(),
                                                                 scrapingbee_key= master.master.scrapingbee_key,
@@ -283,19 +284,30 @@ class LastFmFrame(CTkFrame):
 
 
 ###########################H--Handling the search--(similar artist)####################################
-        def last_fm_search(choice_method, page_quantity, song_quantity,  scrapingbee_key, choice_type, spotify_key):
+        def last_fm_search(user_choice, page_quantity, song_quantity,  scrapingbee_key, choice_type, spotify_key):
             #Check if the  choice was genre method or similar artist method
 
             if choice_type == 'similar artists':
-                print(f'The artist is: {choice_method}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
-                grab_artists = GrabArtist(user_choice=choice_method, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
+                print(f'The artist is: {user_choice}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+
+
+                if " " in user_choice:
+           
+                    user_choice = user_choice.replace(" ", "+")
+
+                grab_artists = GrabArtist(user_choice=user_choice, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
                 getting_similar_artists = grab_artists.get_similar_artists()
 
 
 
             elif choice_type == 'same genre':
-                print(f'The genre is: {choice_method}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
-                grab_artists = GrabArtist(user_choice=choice_method, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
+                print(f'The genre is: {user_choice}\n The quantity is: {page_quantity}\n The key is: {scrapingbee_key}')
+
+                if " " in user_choice:
+                    
+                    user_choice = user_choice.replace(" ", "+")
+
+                grab_artists = GrabArtist(user_choice=user_choice, scrapingbee_key=str(scrapingbee_key), spotify_key=spotify_key, page_quantity=page_quantity, song_quantity=song_quantity)
                 getting_same_genre = grab_artists.get_tag_artists()
 
 ################Spotify stuff###################
@@ -311,21 +323,28 @@ class SpotifyFrame(CTkFrame):
 
 
         def send_to_spotify(user_choice, method):
-            artists = user_choice.split('\n')
-            artists.pop()
-            print(artists)
-            
+
+
+            # client_id=master.master.spotify_key[0]
+            # client_secret=master.master.spotify_key[1]
+
+            if method == 'manual':
+
+                artists = user_choice.split('\n')
+                artists.pop()
 
 
 
+            elif method == 'automatic':
 
-        yotsuba_singing_image = CTkImage(Image.open("./images/yotsuba_singing.png"), size=(130, 160))
-        self.clover = CTkImage(Image.open('./images/awesome.png'), size=(20,20))
-        self.danbo_face_image = CTkImage(Image.open("./images/button.png"), size=(30, 20))
+                artists = [index.strip() for index in user_choice]
+                
 
 
+            spotify = Spotify_thingy(artists_names=artists, song_quantity=5, client_id=master.master.spotify_key[0], client_secret=master.master.spotify_key[1])
+            start_searching = spotify.search_and_add()
 
-        self.configure(corner_radius=25)
+
 
         def Upload_action():
             filename = filedialog.askopenfilename()
@@ -339,6 +358,7 @@ class SpotifyFrame(CTkFrame):
                 if selected_text:
                     with open (selected_text) as file:
                         self.artists = file.readlines()
+                        # print(self.artists)
                         
                         try:
                             self.placing_artists_on_screen = CTkLabel(self, text=f'artists:\n\n{self.artists[0]}\n{self.artists[1]}\n{self.artists[2]}\n...woah so many')
@@ -346,8 +366,18 @@ class SpotifyFrame(CTkFrame):
                         except IndexError:
                             self.placing_artists_on_screen = CTkLabel(self, text=f'artists: \n\n not that many artists!\n but we will work with it!')
                             self.placing_artists_on_screen.place(anchor='center', relx=0.25, y=250)
-                        
+                        return self.artists
 
+
+
+
+        yotsuba_singing_image = CTkImage(Image.open("./images/yotsuba_singing.png"), size=(130, 160))
+        self.clover = CTkImage(Image.open('./images/awesome.png'), size=(20,20))
+        self.danbo_face_image = CTkImage(Image.open("./images/button.png"), size=(30, 20))
+
+
+
+        self.configure(corner_radius=25)
         
         yotsuba_singing = CTkLabel(self, image=yotsuba_singing_image,
                                    text='', fg_color='transparent' )
@@ -362,6 +392,13 @@ class SpotifyFrame(CTkFrame):
 
         def segmented_button_value(value):
             if value == 'automatic':
+
+                try:
+                    self.user_entry.place_forget()
+                    self.start_search_user_input.place_forget()
+                    self.write_it_down.place_forget()
+                except AttributeError:
+                    print('well this doesnt exist yet')
 
 
 
@@ -387,16 +424,10 @@ class SpotifyFrame(CTkFrame):
                                 border_width=1,
                                 image=self.danbo_face_image, 
                                 width=60, height=40,
-                                )
+                                command=lambda: send_to_spotify(user_choice=self.artists, method='automatic'))
                 self.start_search_button.place(anchor='center', relx=0.75, y=140)
                 
 
-                try:
-                    self.user_entry.place_forget()
-                    self.start_search_user_input.place_forget()
-                    self.write_it_down.place_forget()
-                except AttributeError:
-                    print('well this doesnt exist yet')
 
 
             else:
