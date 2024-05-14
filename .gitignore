@@ -1,2 +1,7 @@
 .cache
 artists_folder/
+.cache
+artists_folder/
+.gitattributes
+pip
+__pycache__/
