@@ -38,19 +38,19 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
     2. Log-in with your spotify account
     - Once you're in the developer page access the dashboard.
 
-        <img src="dashboard.png" alt="Diagram" width="400">
+        <img src="README/dashboard.png" alt="dashboard" width="400">
     - Create your app by pressing the 'Create App' button.
 
-        <img src="createapp.png" alt="Diagram" width="400">
+        <img src="README/createapp.png" alt="create app" width="400">
     - Once you're at the Create app page simply just follow the example.
 
-        <img src="createapp_page.png" alt="Diagram" width="400">
+        <img src="README/createapp_page.png" alt="create app page" width="400">
     ATTENTION THE URI BEING `http://example.com` is necessary do not skip.
 
     - After saving it and creating your app headback to the dashboard where you will see your app.
-        <img src="yourapp.png" alt="Diagram" width="400">
+        <img src="README/yourapp.png" alt="your app" width="400">
     - Upon clicking on your app you will be able to view your keys.
-        <img src="yourkeys.png" alt="Diagram" width="400">
+        <img src="README/yourkeys.png" alt="your keys" width="400">
 
 
     
@@ -64,7 +64,7 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
     ```
 2. Once the program is up and running you will see the main page where you should fill in wth your keys.
     <!-- <div align="center"> -->
-    <img src="home_keys.png" alt="Diagram" width="700">
+    <img src="README/home_keys.png" alt="Diagram" width="700">
     <!-- </div> -->
     
 
@@ -77,7 +77,7 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
     3. QT.songs being the quantity of songs per artist
     ### Example
 
-    <img src="similar_artists.png" alt="Diagram" width="500">
+    <img src="README/similar_artists.png" alt="Diagram" width="500">
 
 <br>
 
@@ -85,7 +85,7 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
     1. You can just input the target genre and it will retreive artists within same genre (might be inaccurate given there's subgenres)
     ### Example
 
-    <img src="same_genre.png" alt="Diagram" width="500">
+    <img src="README/same_genre.png" alt="Diagram" width="500">
 
 <br>
 
@@ -101,7 +101,7 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
     2. After that you can click Start search button and it will add 5 songs by each on a spotify playlist
     ### Example
 
-    <img src="automatic.png" alt="Diagram" width="500">
+    <img src="README/automatic.png" alt="Diagram" width="500">
 
 <br>
 
@@ -111,12 +111,12 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
     2. After that you can click Start search button and it will add 5 songs by each on a spotify playlist.
     ### Example
 
-    <img src="manual.png" alt="Diagram" width="500">
+    <img src="README/manual.png" alt="Diagram" width="500">
 
 
 ## HAVE AN AWESOME DAY! 🫧
 <div align="center">
-  <img src="yotsuba.png" alt="Diagram" width="300">
+  <img src="README/yotsuba.png" alt="Diagram" width="300">
 </div>
 
 
