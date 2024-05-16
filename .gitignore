@@ -3,6 +3,5 @@ artists_folder/
 .cache
 artists_folder/
 .gitattributes
-rym_data
 pip
 __pycache__/
