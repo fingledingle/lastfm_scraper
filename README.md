@@ -1,4 +1,8 @@
-# Project Name
+# Playlist Maker
+
+<div align="center">
+    <img src="README/home.png" alt="Diagram" width="500">
+</div>
 
 ## Description
 This project is an artist searcher. It aims to add songs to a spotify playlist by searching for similar artists or genres. The project is built using python and some libraries.
@@ -121,6 +125,6 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
 
 
 ## Contact
-Maintainer - [Email](https://github.com/fingledingle) - [marky02381@outlook.jp](mailto:marky02381@outlook.jp) | 「Discord」 - bb4dk9by2h
+Maintainer - [Email](https://github.com/fingledingle) - [marky02381@outlook.jp](mailto:marky02381@outlook.jp) ㅤ| 「Discord」 - bb4dk9by2h
 
 Project Link: [https://github.com/fingledingle/lastfm_scraper](https://github.com/fingledingle/lastfm_scraper)
