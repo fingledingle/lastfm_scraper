@@ -69,6 +69,7 @@ This project is an artist searcher. It aims to add songs to a spotify playlist b
 2. Once the program is up and running you will see the main page where you should fill in wth your keys.
     <!-- <div align="center"> -->
     <img src="README/home_keys.png" alt="Diagram" width="700">
+3. When you run the program for the first time a cache file will be created and you will also have to copy and paste the URL that opens up in the webbrowser onto console
     <!-- </div> -->
     
 
