@@ -40,6 +40,7 @@ class MainWindow(CTk):
         
         print(self.frames)
 
+        self.resizable(False, False)
 
 
         # Set window size and title
@@ -337,7 +338,7 @@ class SpotifyFrame(CTkFrame):
             elif method == 'automatic':
 
                 artists = [index.strip() for index in user_choice]
-                
+                print(master.naster.spotify_key[0], master.master.spotify_key[1])
 
 
             spotify = Spotify_thingy(artists_names=artists, song_quantity=5, client_id=master.master.spotify_key[0], client_secret=master.master.spotify_key[1], methods='single page')

@@ -81,7 +81,7 @@ class Spotify_thingy:
 
 
         elif self.methods == 'single page':
-            for artists in artist_list:
+            for artists in self.artists_names:
                 result = self.sp.search(q=artists, type='artist')
                 #if the quantity of artists items is bigger than 0 then the program runs
                 if len(result['artists']['items']) > 0:
