@@ -6,6 +6,7 @@
 
 ## Description
 This project is an artist searcher. It aims to add songs to a spotify playlist by searching for similar artists or genres. The project is built using python and some libraries.
+BEFORE YOU ASK WHY DID I SCRAPE IT AND NOT JUST USE THE API (I THOUGHT IT WOULD BE FUN AND IT WAS MY FIRST PROPER SCRAPING PROJECT)
 
 ## Table of Contents
 - [Installation](#installation)
